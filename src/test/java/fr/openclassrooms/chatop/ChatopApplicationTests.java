@@ -1,10 +1,10 @@
-package fr.openclassrooms.chatop_back;
+package fr.openclassrooms.chatop;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ChatopBackApplicationTests {
+class ChatopApplicationTests {
 
 	@Test
 	void contextLoads() {
