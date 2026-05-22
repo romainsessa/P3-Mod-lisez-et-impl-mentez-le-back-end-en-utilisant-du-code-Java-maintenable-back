@@ -21,7 +21,7 @@ public class MessageService {
 
 		Message entity = new Message();
 		entity.setRental_id(message.getRental_id());
-		entity.setUser_id(message.getOwner_id());
+		entity.setUser_id(message.getUser_id());
 		entity.setMessage(message.getMessage());
 		entity.setCreatedAt(LocalDateTime.now());
 		entity.setUpdatedAt(LocalDateTime.now());

@@ -79,12 +79,20 @@ public class RentalController {
             return ResponseEntity.ok(new RentalUpsertResponse("Rental created !"));            
     }
 	
-	@PutMapping("/{id}")
+	@PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateRental(
         @PathVariable Long id,
-        @RequestBody RentalDTO rental) {
+        @RequestParam String name,
+        @RequestParam Long surface,
+        @RequestParam Long price,
+        @RequestParam String description) {
 	    
-		rental.setId(id);		
+		RentalDTO rental = new RentalDTO();
+		rental.setId(id);
+        rental.setName(name);
+        rental.setSurface(surface);
+        rental.setPrice(price);
+        rental.setDescription(description);
 	    rentalService.updateRental(rental);
 	
 	    return ResponseEntity.ok(new RentalUpsertResponse("Rental updated !"));

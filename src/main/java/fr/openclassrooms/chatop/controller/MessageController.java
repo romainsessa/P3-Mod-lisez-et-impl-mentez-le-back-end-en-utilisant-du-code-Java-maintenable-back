@@ -23,7 +23,7 @@ public class MessageController {
 
 	@PostMapping
     public ResponseEntity<MessageResponse> addMessage(@RequestBody MessageRequest message){
-        if (message.getRental_id() == null || message.getOwner_id() == null || message.getMessage() == null) {
+        if (message.getRental_id() == null || message.getUser_id() == null || message.getMessage() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         messageService.saveMessage(message);

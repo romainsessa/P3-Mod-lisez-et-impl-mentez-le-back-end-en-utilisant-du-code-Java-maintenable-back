@@ -3,7 +3,7 @@ package fr.openclassrooms.chatop.payload.request;
 public class MessageRequest {
 
 	private Long rental_id;
-	private Long owner_id;
+	private Long user_id;
 	private String message;
 
 	public Long getRental_id() {
@@ -14,12 +14,12 @@ public class MessageRequest {
 		this.rental_id = rental_id;
 	}
 
-	public Long getOwner_id() {
-		return owner_id;
+	public Long getUser_id() {
+		return user_id;
 	}
 
-	public void setOwner_id(Long owner_id) {
-		this.owner_id = owner_id;
+	public void setUser_id(Long user_id) {
+		this.user_id = user_id;
 	}
 
 	public String getMessage() {
