@@ -34,10 +34,10 @@ public class AuthController {
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+	public ResponseEntity<TokenResponse> register(@RequestBody RegisterRequest request) {
 		UserDTO userDTO = userService.findByNameOrEmail(request.getName(), request.getEmail());
 		if (userDTO != null) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Username or email already exists\"}");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 		UserDTO savedUser = userService.register(request.getEmail(), request.getName(), request.getPassword());
 		String token = jwtService.generateToken(savedUser.getName());
@@ -45,7 +45,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+	public ResponseEntity<TokenResponse> login(@RequestBody LoginRequest request) {
 		String email = request.getEmail();
 		String password = request.getPassword();
 		try {
@@ -61,7 +61,7 @@ public class AuthController {
 	}
 	
 	@GetMapping("/me")
-    public ResponseEntity<?> me(Authentication authentication) {        
+    public ResponseEntity<UserDTO> me(Authentication authentication) {        
         UserDTO user = userService.findByNameOrEmail(null, authentication.getName());
         if (user == null) {
         		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
