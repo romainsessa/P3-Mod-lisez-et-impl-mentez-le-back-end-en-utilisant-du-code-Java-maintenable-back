@@ -22,15 +22,15 @@ public class UserService {
 	}
 
 	public UserDTO findByNameOrEmail(String name, String email) {
-        Optional<User> userOptional = userRepository.findByName(name);
-        if(userOptional.isEmpty()){
-        		userOptional = userRepository.findByEmail(email);
-        		if(userOptional.isEmpty()) {
-        			return null;
-        		}
-        }
-        return new UserDTO(userOptional.get());
-    }
+		Optional<User> userOptional = userRepository.findByName(name);
+		if (userOptional.isEmpty()) {
+			userOptional = userRepository.findByEmail(email);
+			if (userOptional.isEmpty()) {
+				return null;
+			}
+		}
+		return new UserDTO(userOptional.get());
+	}
 
 	public UserDTO register(String email, String name, String password) {
 		User entity = new User();
@@ -39,7 +39,11 @@ public class UserService {
 		entity.setPassword(passwordEncoder.encode(password));
 		entity.setCreatedAt(LocalDateTime.now());
 		entity.setUpdatedAt(LocalDateTime.now());
-        return new UserDTO(userRepository.save(entity));
+		return new UserDTO(userRepository.save(entity));
+	}
+
+	public UserDTO getById(Long id) {
+		return new UserDTO(userRepository.getReferenceById(id));
 	}
 
 }
