@@ -65,6 +65,9 @@ public class SecurityConfig {
 					auth
 					.requestMatchers("/api/auth/register").permitAll()
 					.requestMatchers("/api/auth/login").permitAll()
+					.requestMatchers("/swagger-ui.html").permitAll()
+					.requestMatchers("/swagger-ui/**").permitAll()
+					.requestMatchers("/v3/api-docs/**").permitAll()
 					.requestMatchers("/images/**").permitAll()
 					.anyRequest().authenticated())
 				.oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
