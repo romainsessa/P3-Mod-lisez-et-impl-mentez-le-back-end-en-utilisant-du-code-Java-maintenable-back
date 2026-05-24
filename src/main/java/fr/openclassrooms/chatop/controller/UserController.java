@@ -18,7 +18,12 @@ public class UserController {
 	public UserController(UserService userService) {
 		this.userService = userService;
 	}
-	
+
+	@Operation(summary = "Get a user by id", description = "Returns a user as per the id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved"), 
+        @ApiResponse(responseCode = "404", description = "Not found - The user was not found")
+    })
 	@GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {        
         try {
