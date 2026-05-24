@@ -37,12 +37,21 @@ public class RentalController {
 		this.userService = userService;
 	}
 
+	@Operation(summary = "Get all rentals", description = "Returns a list of rentals")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Rentals successfully retrieved")
+    })
 	@GetMapping
 	public ResponseEntity<RentalsResponse> getRentals() {
 		List<RentalDTO> rentals = rentalService.getRentals();
 		return ResponseEntity.ok(new RentalsResponse(rentals));
 	}
 
+	@Operation(summary = "Get a rental by id", description = "Returns a rental as per the id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved"), 
+        @ApiResponse(responseCode = "404", description = "Not found - The rental was not found")
+    })
 	@GetMapping("/{id}")
 	public ResponseEntity<RentalDTO> getRental(@PathVariable Long id) {
 		try {
@@ -52,7 +61,11 @@ public class RentalController {
 			return ResponseEntity.notFound().build();
 		}
 	}
-	
+
+	@Operation(summary = "Create a new rental", description = "Create a rental with all required information")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully created")
+    })
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<RentalUpsertResponse> addRental(
         @RequestParam String name,
@@ -61,8 +74,8 @@ public class RentalController {
         @RequestParam String description,
         @RequestParam MultipartFile picture,
         Authentication authentication) {      
-        		String email = authentication.getName();
-        		UserDTO user = userService.findByNameOrEmail(null, email);
+        	String email = authentication.getName();
+        	UserDTO user = userService.findByNameOrEmail(null, email);
         		
             String pictureUrl = fileService.saveFile(picture);
             
@@ -78,7 +91,12 @@ public class RentalController {
 
             return ResponseEntity.ok(new RentalUpsertResponse("Rental created !"));            
     }
-	
+
+	@Operation(summary = "Update a rental by id", description = "Update an existing rental")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully updated"), 
+        @ApiResponse(responseCode = "404", description = "Not found - The rental was not found")
+    })
 	@PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateRental(
         @PathVariable Long id,
