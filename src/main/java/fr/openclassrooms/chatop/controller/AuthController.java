@@ -33,6 +33,11 @@ public class AuthController {
 		this.authenticationManager = authenticationManager;
 	}
 
+	@Operation(summary = "Register a new user", description = "Create a user, generate and return a token")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully registred"), 
+        @ApiResponse(responseCode = "400", description = "Bad Request - The name or email already exists")
+    })
 	@PostMapping("/register")
 	public ResponseEntity<TokenResponse> register(@RequestBody RegisterRequest request) {
 		UserDTO userDTO = userService.findByNameOrEmail(request.getName(), request.getEmail());
@@ -44,6 +49,11 @@ public class AuthController {
 		return ResponseEntity.ok(new TokenResponse(token));
 	}
 
+	@Operation(summary = "Log in an existing user", description = "Returns a token for the user logged")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully logged"), 
+        @ApiResponse(responseCode = "404", description = "Unauthorized - The credentials are invalid")
+    })
 	@PostMapping("/login")
 	public ResponseEntity<TokenResponse> login(@RequestBody LoginRequest request) {
 		String email = request.getEmail();
@@ -59,7 +69,12 @@ public class AuthController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 	}
-	
+
+	@Operation(summary = "Get information of the logged user", description = "Returns user details of the logged user")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "User information retrieved"), 
+        @ApiResponse(responseCode = "404", description = "Not found - The user was not found")
+    })
 	@GetMapping("/me")
     public ResponseEntity<UserDTO> me(Authentication authentication) {        
         UserDTO user = userService.findByNameOrEmail(null, authentication.getName());
