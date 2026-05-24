@@ -21,6 +21,11 @@ public class MessageController {
 		this.messageService = messageService;
 	}
 
+	@Operation(summary = "Post a new message", description = "Create a user message for a rental")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully sent"), 
+        @ApiResponse(responseCode = "400", description = "Bad Request - The message information are invalid")
+    })
 	@PostMapping
     public ResponseEntity<MessageResponse> addMessage(@RequestBody MessageRequest message){
         if (message.getRental_id() == null || message.getUser_id() == null || message.getMessage() == null) {
